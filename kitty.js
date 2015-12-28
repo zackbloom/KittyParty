@@ -147,8 +147,8 @@
       for (var i=0; i < mutations.length; i++) {
         mutation = mutations[i];
 
-        for (var j=0; j < mutations.addedNodes.length; j++) {
-          walkChildren(mutations.addedNodes[j]);
+        for (var j=0; j < mutation.addedNodes.length; j++) {
+          walkChildren(mutation.addedNodes[j]);
         }
       }
     });
