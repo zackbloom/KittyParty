@@ -70,11 +70,7 @@
     switch (addedNode.nodeType) {
       case 1:
         if (addedNode.tagName == 'IMG') {
-          var optimizedSrc = optimizeSrc(addedNode);
-
-          if (optimizedSrc !== origSrc) {
-            setSrc(addedNode, optimizedSrc);
-          }
+          setSrc(addedNode, optimizeSrc(addedNode));
 
           watch(addedNode, 'src', function(node){
             setSrc(node, optimizeSrc(node));
