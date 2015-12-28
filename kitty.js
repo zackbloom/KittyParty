@@ -45,7 +45,7 @@
 
     var num = Math.floor(Math.random() * 10) + 1;
 
-    return "" + proto + "//h_lorempixel_com.p.eager.works/g/" + (size.width || '600') + "/" + (size.height || '400') + "/cats/" + num + "/";
+    return "" + proto + "//h_lorempixel_com.p.eager.works/g/" + (size.width | 0) + "/" + (size.height | 0) + "/cats/" + num + "/";
   };
 
   var backgroundRe = /url\(["']?(.+?)["']?\)/;
