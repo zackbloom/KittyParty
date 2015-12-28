@@ -1,9 +1,8 @@
 (function() {
-  var TIME_LIMIT, checkNode, guessDimentions, observer, optimizeSrc, selector;
+  var guessDimentions = function(el) {
+    var computed = getComputedStyle(el);
 
-  guessDimentions = function(el) {
-    var computed, height, width;
-    computed = getComputedStyle(el);
+    var height, width;
     if (el.height) {
       height = parseFloat(el.height);
     } else if (el.style.height) {
@@ -11,6 +10,7 @@
     } else if (computed.height) {
       height = parseFloat(computed.height);
     }
+
     if (el.width) {
       width = parseFloat(el.width);
     } else if (el.style.width) {
@@ -18,6 +18,7 @@
     } else if (computed.width) {
       width = parseFloat(computed.width);
     }
+
     return {
       height: height,
       width: width
@@ -25,20 +26,19 @@
   };
 
   optimizeSrc = function(el, src) {
-    var proto, size;
     if (!src)
       src = el.src
 
     if (/lorempixel[._]com/.test(src)) {
       return;
     }
-    size = guessDimentions(el);
+    var size = guessDimentions(el);
 
     if (!size.width || !size.height) {
       return;
     }
 
-    proto = document.location.protocol;
+    var proto = document.location.protocol;
     if (proto === 'file:') {
       proto = 'http:';
     }
@@ -48,7 +48,7 @@
     return "" + proto + "//h_lorempixel_com.p.eager.works/g/" + (size.width || '600') + "/" + (size.height || '400') + "/cats/" + num + "/";
   };
 
-  backgroundRe = /url\(["']?(.+?)["']?\)/;
+  var backgroundRe = /url\(["']?(.+?)["']?\)/;
 
   var checkBackground = function(addedNode) {
     var style = getComputedStyle(addedNode)
@@ -67,12 +67,10 @@
   }
 
   checkNode = function(addedNode) {
-    var optimizedSrc, origSrc;
-
     switch (addedNode.nodeType) {
       case 1:
         if (addedNode.tagName == 'IMG') {
-          optimizedSrc = optimizeSrc(addedNode);
+          var optimizedSrc = optimizeSrc(addedNode);
 
           if (optimizedSrc !== origSrc) {
             setSrc(addedNode, optimizedSrc);
@@ -89,6 +87,9 @@
   };
 
   var setSrc = function(img, src){
+    if (!src || src === img.src)
+      return;
+
     img.src = src;
     img.style.visibility = 'hidden';
 
@@ -143,15 +144,11 @@
 
   if (window.MutationObserver != null) {
     observer = new MutationObserver(function(mutations) {
-      var addedNode, mutation, _i, _len;
-      for (_i = 0, _len = mutations.length; _i < _len; _i++) {
-        mutation = mutations[_i];
+      for (var i=0; i < mutations.length; i++) {
+        mutation = mutations[i];
 
-        var _j, _len1, _ref;
-        _ref = mutation.addedNodes;
-
-        for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-          walkChildren(_ref[_j]);
+        for (var j=0; j < mutations.addedNodes.length; j++) {
+          walkChildren(mutations.addedNodes[j]);
         }
       }
     });
@@ -162,4 +159,4 @@
     });
   }
 
-}).call(this);
+})();
