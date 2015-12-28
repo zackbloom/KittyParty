@@ -57,7 +57,7 @@
       var host = "http://lorempixel.com";
     }
 
-    return host + "/g/" + size.width + "/" + size.height + "/cats/" + num + "/";
+    return host + "/" + size.width + "/" + size.height + "/cats/" + num + "/";
   };
 
   var backgroundRe = /url\(["']?(.+?)["']?\)/;
