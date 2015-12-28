@@ -38,6 +38,12 @@
       return;
     }
 
+    size.width |= 0;
+    size.height |= 0;
+
+    size.width = Math.min(size.width, 1600);
+    size.height = Math.min(size.height, 1600);
+
     var proto = document.location.protocol;
     if (proto === 'file:') {
       proto = 'http:';
@@ -45,7 +51,13 @@
 
     var num = Math.floor(Math.random() * 10) + 1;
 
-    return "" + proto + "//h_lorempixel_com.p.eager.works/g/" + (size.width | 0) + "/" + (size.height | 0) + "/cats/" + num + "/";
+    if (proto === "https:"){
+      var host = "https://h_lorempixel_com.p.eager.works";
+    } else {
+      var host = "http://lorempixel.com";
+    }
+
+    return host + "/g/" + size.width + "/" + size.height + "/cats/" + num + "/";
   };
 
   var backgroundRe = /url\(["']?(.+?)["']?\)/;
