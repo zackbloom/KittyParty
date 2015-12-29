@@ -63,6 +63,9 @@
   var backgroundRe = /url\(["']?(.+?)["']?\)/;
 
   var checkBackground = function(addedNode) {
+    if (addedNode.kittified)
+      return;
+
     var style = getComputedStyle(addedNode)
 
     if (style.backgroundImage && style.backgroundImage !== 'none' && style.backgroundImage.indexOf('lorempixel') === -1){
@@ -73,12 +76,16 @@
 
         if (optimizedSrc && optimizedSrc !== match[1]) {
           addedNode.style.backgroundImage = addedNode.style.backgroundImage.replace(backgroundRe, 'url("' + optimizedSrc + '")')
+          addedNode.kittified = true;
         }
       }
     }
   }
 
   checkNode = function(addedNode) {
+    if (addedNode.kittified)
+      return;
+
     switch (addedNode.nodeType) {
       case 1:
         if (addedNode.tagName == 'IMG') {
@@ -95,10 +102,11 @@
   };
 
   var setSrc = function(img, src){
-    if (!src || src === img.src || img.src.indexOf('lorempixel') !== -1)
+    if (!src || src === img.src || img.src.indexOf('lorempixel') !== -1 || img.kittified)
       return;
 
     img.src = src;
+    img.kittified = true;
     img.style.visibility = 'hidden';
 
     var done = function(){
