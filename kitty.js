@@ -65,7 +65,7 @@
   var checkBackground = function(addedNode) {
     var style = getComputedStyle(addedNode)
 
-    if (style.backgroundImage && style.backgroundImage !== 'none'){
+    if (style.backgroundImage && style.backgroundImage !== 'none' && style.backgroundImage.indexOf('lorempixel') === -1){
       var match = backgroundRe.exec(style.backgroundImage);
 
       if (match){
@@ -95,7 +95,7 @@
   };
 
   var setSrc = function(img, src){
-    if (!src || src === img.src)
+    if (!src || src === img.src || img.src.indexOf('lorempixel') !== -1)
       return;
 
     img.src = src;
