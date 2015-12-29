@@ -72,7 +72,7 @@
         var optimizedSrc = optimizeSrc(addedNode, match[1]);
 
         if (optimizedSrc && optimizedSrc !== match[1]) {
-          addedNode.style.backgroundImage = 'url("' + optimizedSrc + '")'
+          addedNode.style.backgroundImage = addedNode.style.backgroundImage.replace(backgroundRe, 'url("' + optimizedSrc + '")')
         }
       }
     }
