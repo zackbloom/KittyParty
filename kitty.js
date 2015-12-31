@@ -106,6 +106,7 @@
       return;
 
     img.src = src;
+    img.srcset = '';
     img.kittified = true;
     img.style.visibility = 'hidden';
 
