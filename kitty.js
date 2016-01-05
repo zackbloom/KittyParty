@@ -44,6 +44,10 @@
     if (size.width < 20 || size.height < 20)
       return;
 
+    var aspectRatio = size.width / size.height;
+    if (aspectRatio > 8 || aspectRatio < 0.125)
+      return;
+
     size.width |= 0;
     size.height |= 0;
 
