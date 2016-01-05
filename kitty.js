@@ -55,7 +55,7 @@
     var num = currentCat;
     currentCat = currentCat % 15;
 
-    return "//meow-voyage.imgix.net/" + num + ".jpg?w=" + size.width + "&h=" + size.height + "&fit=min&auto=enhance";
+    return "//meow-voyage.imgix.net/" + num + ".jpg?w=" + size.width + "&h=" + size.height + "&fit=min&auto=enhance,format";
   };
 
   var backgroundRe = /url\(["']?(.+?)["']?\)/;
