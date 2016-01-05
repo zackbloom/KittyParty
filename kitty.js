@@ -41,7 +41,7 @@
     if (!size.height)
       size.height = 400
 
-    if (size.width < 24 || size.height < 24)
+    if (size.width < 20 || size.height < 20)
       return;
 
     size.width |= 0;
