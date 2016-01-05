@@ -25,11 +25,13 @@
     };
   };
 
+  var currentCat = 0;
+
   optimizeSrc = function(el, src) {
     if (!src)
       src = el.src
 
-    if (/lorempixel[._]com/.test(src)) {
+    if (/meow-voyage[._]imgix[._]net/.test(src)) {
       return;
     }
     var size = guessDimentions(el);
@@ -49,46 +51,39 @@
       proto = 'http:';
     }
 
-    var num = Math.floor(Math.random() * 10) + 1;
+    currentCat++;
+    var num = currentCat;
+    currentCat = currentCat % 15;
 
-    if (proto === "https:"){
-      var host = "https://h_lorempixel_com.p.eager.works";
-    } else {
-      var host = "http://lorempixel.com";
-    }
-
-    return host + "/" + size.width + "/" + size.height + "/cats/" + num + "/";
+    return "//meow-voyage.imgix.net/" + num + ".jpg?w=" + size.width + "&h=" + size.height + "&fit=min&auto=enhance";
   };
 
   var backgroundRe = /url\(["']?(.+?)["']?\)/;
 
   var checkBackground = function(addedNode) {
-    if (addedNode.kittified)
-      return;
-
     var style = getComputedStyle(addedNode)
 
-    if (style.backgroundImage && style.backgroundImage !== 'none' && style.backgroundImage.indexOf('lorempixel') === -1){
+    if (style.backgroundImage && style.backgroundImage !== 'none' && style.backgroundImage.indexOf('meow-voyage') === -1){
       var match = backgroundRe.exec(style.backgroundImage);
 
       if (match){
         var optimizedSrc = optimizeSrc(addedNode, match[1]);
 
+        if (addedNode.kittifiedSrc === match[1])
+          return;
+
         if (optimizedSrc && optimizedSrc !== match[1]) {
           addedNode.style.backgroundImage = addedNode.style.backgroundImage.replace(backgroundRe, 'url("' + optimizedSrc + '")')
-          addedNode.kittified = true;
+          addedNode.kittifiedSrc = match[1];
         }
       }
     }
   }
 
   checkNode = function(addedNode) {
-    if (addedNode.kittified)
-      return;
-
     switch (addedNode.nodeType) {
       case 1:
-        if (addedNode.tagName == 'IMG') {
+        if (addedNode.tagName == 'IMG' && (!addedNode.kittifiedSrc || addedNode.src !== addedNode.kittifiedSrc)) {
           setSrc(addedNode, optimizeSrc(addedNode));
 
           watch(addedNode, 'src', function(node){
@@ -102,13 +97,17 @@
   };
 
   var setSrc = function(img, src){
-    if (!src || src === img.src || img.src.indexOf('lorempixel') !== -1 || img.kittified)
+    if (!src || src === img.src || img.src.indexOf('meow-voyage') !== -1 || img.kittifiedSrc === img.src)
       return;
 
+    img.kittifiedSrc = img.src;
     img.src = src;
     img.srcset = '';
-    img.kittified = true;
-    img.style.visibility = 'hidden';
+
+    if (!img.getAttribute('onload') || img.getAttribute('onload').indexOf('google') === -1){
+      // ^ Fix for Google Images
+      img.style.visibility = 'hidden';
+    }
 
     var done = function(){
       img.style.visibility = 'visible';
