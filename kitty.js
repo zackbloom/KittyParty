@@ -63,18 +63,14 @@
   var checkBackground = function(addedNode) {
     var style = getComputedStyle(addedNode)
 
-    if (style.backgroundImage && style.backgroundImage !== 'none' && style.backgroundImage.indexOf('meow-voyage') === -1){
+    if (style.backgroundImage && style.backgroundImage !== 'none' && style.backgroundImage.indexOf('meow-voyage') === -1 && addedNode !== document.body){
       var match = backgroundRe.exec(style.backgroundImage);
 
       if (match){
         var optimizedSrc = optimizeSrc(addedNode, match[1]);
 
-        if (addedNode.kittifiedSrc === match[1])
-          return;
-
         if (optimizedSrc && optimizedSrc !== match[1]) {
           addedNode.style.backgroundImage = addedNode.style.backgroundImage.replace(backgroundRe, 'url("' + optimizedSrc + '")')
-          addedNode.kittifiedSrc = match[1];
         }
       }
     }
@@ -83,7 +79,7 @@
   checkNode = function(addedNode) {
     switch (addedNode.nodeType) {
       case 1:
-        if (addedNode.tagName == 'IMG' && (!addedNode.kittifiedSrc || addedNode.src !== addedNode.kittifiedSrc)) {
+        if (addedNode.tagName == 'IMG') {
           setSrc(addedNode, optimizeSrc(addedNode));
 
           watch(addedNode, 'src', function(node){
@@ -97,10 +93,9 @@
   };
 
   var setSrc = function(img, src){
-    if (!src || src === img.src || img.src.indexOf('meow-voyage') !== -1 || img.kittifiedSrc === img.src)
+    if (!src || src === img.src || img.src.indexOf('meow-voyage') !== -1)
       return;
 
-    img.kittifiedSrc = img.src;
     img.src = src;
     img.srcset = '';
 
