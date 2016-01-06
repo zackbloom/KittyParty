@@ -44,7 +44,7 @@
     if (size.width < 20 || size.height < 20)
       return;
 
-    if (size.width / size.height > 2 && size.height <= 64)
+    if (size.width / size.height > 2 && size.height <= 48)
       return;
 
     size.width |= 0;
