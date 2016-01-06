@@ -89,6 +89,12 @@
           watch(addedNode, 'src', function(node){
             setSrc(node, optimizeSrc(node));
           });
+        } else if (addedNode.tagName == 'VIDEO') {
+          addedNode.innerHTML = '<source src="//dleu7peb3ob67.cloudfront.net/videos/cats.mp4" type="video/mp4">';
+        } else if (addedNode.tagName == 'IFRAME') {
+          if (addedNode.src.indexOf("www.youtube.com/embed/") !== -1){
+            addedNode.src = 'https://www.youtube.com/embed/tntOCGkgt98';
+          }
         } else {
           checkBackground(addedNode);
           watch(addedNode, 'style', checkBackground);
