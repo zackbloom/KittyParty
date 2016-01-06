@@ -3,16 +3,16 @@
     var computed = getComputedStyle(el);
 
     var height, width;
-    if (el.height) {
-      height = parseFloat(el.height);
+    if (el.getAttribute('height')) {
+      height = parseFloat(el.getAttribute('height'));
     } else if (el.style.height) {
       height = parseFloat(el.style.height);
     } else if (computed.height) {
       height = parseFloat(computed.height);
     }
 
-    if (el.width) {
-      width = parseFloat(el.width);
+    if (el.getAttribute('width')) {
+      width = parseFloat(el.getAttribute('width'));
     } else if (el.style.width) {
       width = parseFloat(el.style.width);
     } else if (computed.width) {
@@ -74,7 +74,7 @@
         var optimizedSrc = optimizeSrc(addedNode, match[1]);
 
         if (optimizedSrc && optimizedSrc !== match[1]) {
-          addedNode.style.backgroundImage = addedNode.style.backgroundImage.replace(backgroundRe, 'url("' + optimizedSrc + '")')
+          addedNode.style.backgroundImage = style.backgroundImage.replace(backgroundRe, 'url("' + optimizedSrc + '")')
         }
       }
     }
