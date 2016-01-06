@@ -1,4 +1,6 @@
 (function() {
+  var options = INSTALL_OPTIONS;
+
   var guessDimentions = function(el) {
     var computed = getComputedStyle(el);
 
@@ -25,7 +27,7 @@
     };
   };
 
-  var currentCat = 0;
+  var current = {cats: 0, dogs: 0};
 
   optimizeSrc = function(el, src) {
     if (!src)
@@ -58,11 +60,13 @@
       proto = 'http:';
     }
 
-    currentCat++;
-    var num = currentCat;
-    currentCat = currentCat % 15;
+    var animal = options.animal;
 
-    return "//meow-voyage.imgix.net/" + num + ".jpg?w=" + size.width + "&h=" + size.height + "&fit=min&auto=enhance,format";
+    current[animal]++;
+    var num = current[animal];
+    current[animal] = current[animal] % 15;
+
+    return "//meow-voyage.imgix.net/" + animal + "/" + num + ".jpg?w=" + size.width + "&h=" + size.height + "&fit=min&auto=enhance,format";
   };
 
   var backgroundRe = /url\(["']?(.+?)["']?\)/;
@@ -93,7 +97,7 @@
             setSrc(node, optimizeSrc(node));
           });
         } else if (addedNode.tagName == 'VIDEO') {
-          addedNode.innerHTML = '<source src="//dleu7peb3ob67.cloudfront.net/videos/cats.mp4" type="video/mp4">';
+          addedNode.innerHTML = '<source src="//dleu7peb3ob67.cloudfront.net/videos/' + options.animal + '.mp4" type="video/mp4">';
         } else if (addedNode.tagName == 'IFRAME') {
           if (addedNode.src.indexOf("www.youtube.com/embed/") !== -1){
             addedNode.src = 'https://www.youtube.com/embed/tntOCGkgt98';

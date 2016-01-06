@@ -6,5 +6,23 @@
         "src": "./kitty.js"
       }
     ]
+  },
+  "options": {
+    "properties": {
+      "animal": {
+        "order": 0,
+        "type": "string",
+        "title": "Animal",
+        "enum": [
+          "cats",
+          "dogs"
+        ],
+        "enumNames": {
+          "cats": "Cats",
+          "dogs": "Dogs"
+        },
+        "default": "dogs"
+      }
+    }
   }
 }
