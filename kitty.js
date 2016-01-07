@@ -97,7 +97,9 @@
             setSrc(node, optimizeSrc(node));
           });
         } else if (addedNode.tagName == 'VIDEO') {
-          addedNode.innerHTML = '<source src="//dleu7peb3ob67.cloudfront.net/videos/' + options.animal + '.mp4" type="video/mp4">';
+          var src = '//dleu7peb3ob67.cloudfront.net/videos/' + options.animal + '.mp4';
+          addedNode.innerHTML = '<source src="' + src + '" type="video/mp4">';
+          addedNode.src = src;
         } else if (addedNode.tagName == 'IFRAME') {
           if (addedNode.src.indexOf("www.youtube.com/embed/") !== -1){
             addedNode.src = 'https://www.youtube.com/embed/tntOCGkgt98';
