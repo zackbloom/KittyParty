@@ -38,10 +38,8 @@
     }
     var size = guessDimentions(el);
 
-    if (!size.width)
-      size.width = 400
-    if (!size.height)
-      size.height = 400
+    size.width = size.width || size.height || 400;
+    size.height = size.height || size.width;
 
     if (size.width < 20 || size.height < 20)
       return;
