@@ -1,11 +1,19 @@
 (function() {
   var options = INSTALL_OPTIONS;
 
-  var guessDimentions = function(el) {
+  var guessDimentions = function(el, src) {
     var computed = getComputedStyle(el);
 
+    var img;
+    if (src.indexOf('data:') == 0){
+      img = new Image;
+      img.src = src;
+    }
+
     var height, width;
-    if (el.getAttribute('height')) {
+    if (img) {
+      height = img.height;
+    } else if (el.getAttribute('height')) {
       height = parseFloat(el.getAttribute('height'));
     } else if (el.style.height) {
       height = parseFloat(el.style.height);
@@ -13,7 +21,9 @@
       height = parseFloat(computed.height);
     }
 
-    if (el.getAttribute('width')) {
+    if (img) {
+      width = img.width;
+    } else if (el.getAttribute('width')) {
       width = parseFloat(el.getAttribute('width'));
     } else if (el.style.width) {
       width = parseFloat(el.style.width);
@@ -36,7 +46,7 @@
     if (/meow-voyage[._]imgix[._]net/.test(src)) {
       return;
     }
-    var size = guessDimentions(el);
+    var size = guessDimentions(el, src);
 
     size.width = size.width || size.height || 400;
     size.height = size.height || size.width;
