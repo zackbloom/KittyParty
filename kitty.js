@@ -82,7 +82,7 @@
   var checkBackground = function(addedNode) {
     var style = getComputedStyle(addedNode)
 
-    if (style.backgroundImage && style.backgroundImage !== 'none' && style.backgroundImage.indexOf('meow-voyage') === -1 && addedNode !== document.body){
+    if (style.backgroundImage && style.backgroundImage !== 'none' && style.backgroundImage.indexOf('meow-voyage') === -1 && addedNode !== document.body && style.backgroundRepeat !== 'repeat-y'){
       var match = backgroundRe.exec(style.backgroundImage);
 
       if (match){
