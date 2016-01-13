@@ -162,7 +162,7 @@
     if (node.nodeType === 1){
       checkNode(node);
 
-      if (node.children.length){
+      if (node.children && node.children.length){
         for (var i=0; i < node.children.length; i++){
           walkChildren(node.children[i]);
         }
